@@ -18,6 +18,11 @@
  * See https://github.com/MikeMirzayanov/testlib/ to get latest version or bug tracker.
  */
 
+/*
+ * hustoj have some different logics from other oj's spj
+ */
+#define HUSTOJ
+
 #ifndef _TESTLIB_H_
 #define _TESTLIB_H_
 
@@ -2801,7 +2806,18 @@ NORETURN void halt(int exitCode) {
 #ifdef TESTLIB_THROW_EXIT_EXCEPTION_INSTEAD_OF_EXIT
     throw exit_exception(exitCode);
 #endif
+
+#ifdef HUSTOJ
+    /*
+     * in hustoj, there are only two results:
+     * 0 means AC
+     * 1 means WA
+     */
+    std::exit(exitCode==0?0:1);
+#else
     std::exit(exitCode);
+#endif
+
 }
 
 static bool __testlib_shouldCheckDirt(TResult result) {
@@ -4625,9 +4641,22 @@ void registerTestlibCmd(int argc, char *argv[]) {
         }
     }
 
+#ifdef HUSTOJ
+    /*
+     * in hustoj, params in args is different.
+     * argv[1]：input
+     * argv[2]：std output (answer)
+     * argv[3]：output (user's output)
+     */
     inf.init(args[1], _input);
-    ouf.init(args[2], _output);
-    ans.init(args[3], _answer);
+    ouf.init(argv[3], _output);
+    ans.init(argv[2], _answer);
+#else
+    inf.init(argv[1], _input);
+    ouf.init(argv[2], _output);
+    ans.init(argv[3], _answer);
+#endif
+
 }
 
 void registerTestlib(int argc, ...) {
