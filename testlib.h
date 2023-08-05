@@ -4649,12 +4649,12 @@ void registerTestlibCmd(int argc, char *argv[]) {
      * argv[3]：output (user's output)
      */
     inf.init(args[1], _input);
-    ouf.init(argv[3], _output);
-    ans.init(argv[2], _answer);
+    ouf.init(args[3], _output);
+    ans.init(args[2], _answer);
 #else
-    inf.init(argv[1], _input);
-    ouf.init(argv[2], _output);
-    ans.init(argv[3], _answer);
+    inf.init(args[1], _input);
+    ouf.init(args[2], _output);
+    ans.init(args[3], _answer);
 #endif
 
 }
